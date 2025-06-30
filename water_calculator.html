@@ -1,0 +1,135 @@
+<!-- 
+This file is a Pure Water Addition Calculator / 纯水加入量计算器
+Purpose: Calculate the amount of pure water to be added based on material weight and fixed solid content ratio
+目的：基于物料重量和固定固含量比例计算需要添加的纯水量
+
+Formula / 公式: Pure Water Addition = (Material Weight ÷ 40%) - Material Weight
+                纯水加入量 = （物料重量 ÷ 40%）- 物料重量
+
+Related Files / 相关文件: 
+- Standalone HTML file with embedded CSS and JavaScript / 独立的HTML文件，包含嵌入式CSS和JavaScript
+- Based on the structure of index.html (slurry addition calculator) / 基于index.html（浆料添加量计算器）的结构
+
+Key Features / 主要功能:
+- Input validation for material weight / 物料重量输入验证
+- Fixed solid content ratio (40%) hidden from user / 固定固含量比例（40%）对用户隐藏
+- Real-time calculation with precision to 4 decimal places / 实时计算，精确到4位小数
+- Error handling and user feedback / 错误处理和用户反馈
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Page title in Chinese / 中文页面标题 -->
+    <title>纯水加入量计算器</title>
+    <meta charset="UTF-8">
+    <style>
+        /* Main container styling / 主容器样式 */
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px; 
+            max-width: 500px; 
+            margin: auto; 
+        }
+        
+        /* Input group container / 输入组容器 */
+        .input-group { 
+            margin: 10px 0; 
+        }
+        
+        /* Input field styling / 输入框样式 */
+        input { 
+            width: 100%; 
+            padding: 8px; 
+            margin-top: 5px; 
+        }
+        
+        /* Calculate button styling / 计算按钮样式 */
+        button { 
+            background: #007bff; 
+            color: white; 
+            border: none; 
+            padding: 10px 20px; 
+            cursor: pointer; 
+        }
+        
+        /* Result display styling / 结果显示样式 */
+        #result { 
+            font-weight: bold; 
+            color: #dc3545; 
+        }
+        
+        /* Error message styling / 错误消息样式 */
+        .error { 
+            color: red; 
+            font-size: 0.9em; 
+        }
+    </style>
+</head>
+<body>
+    <!-- Main heading / 主标题 -->
+    <h3>纯水加入量计算器</h3>
+    
+    <!-- Material weight input section / 物料重量输入部分 -->
+    <div class="input-group">
+        <label>物料重量（kg）<input type="number" id="materialWeight" step="0.1" required></label>
+        <div id="materialWeightError" class="error"></div>
+    </div>
+
+    <!-- Fixed solid content ratio - hidden from user / 固定固含量比例 - 对用户隐藏 -->
+    <!-- <p>固含量固定为：40%</p> -->
+
+    <!-- Calculate button / 计算按钮 -->
+    <button onclick="calculate()">计算纯水加入量</button>
+    
+    <!-- Result display section / 结果显示部分 -->
+    <p>计算结果：<span id="result">0.0000</span> kg</p>
+
+    <script>
+        /**
+         * Validate user input for material weight
+         * 验证用户输入的物料重量
+         * @param {number} value - The input value to validate / 要验证的输入值
+         * @param {string} field - The field name for error display / 用于错误显示的字段名
+         * @returns {boolean} - True if valid, false otherwise / 有效返回true，否则返回false
+         */
+        function validateInput(value, field) {
+            const errorElement = document.getElementById(`${field}Error`);
+            
+            // Check if value is positive and numeric / 检查数值是否为正数且为数字
+            if (value <= 0 || isNaN(value)) {
+                errorElement.textContent = "请输入有效正数";
+                return false;
+            }
+            
+            // Clear error message if validation passes / 验证通过时清除错误消息
+            errorElement.textContent = "";
+            return true;
+        }
+
+        /**
+         * Calculate pure water addition amount based on material weight
+         * 基于物料重量计算纯水加入量
+         * Formula: Pure Water Addition = (Material Weight ÷ 40%) - Material Weight
+         * 公式：纯水加入量 = （物料重量 ÷ 40%）- 物料重量
+         */
+        function calculate() {
+            // Get material weight input value / 获取物料重量输入值
+            const materialWeight = parseFloat(document.getElementById("materialWeight").value);
+            
+            // Fixed solid content ratio (40%) / 固定固含量比例（40%）
+            const solidContentRatio = 40; // 40%
+            
+            // Validate input before calculation / 计算前验证输入
+            if (!validateInput(materialWeight, "materialWeight")) return;
+
+            // Calculate pure water addition using the formula / 使用公式计算纯水加入量
+            // Pure Water Addition = (Material Weight ÷ 40%) - Material Weight
+            // 纯水加入量 = （物料重量 ÷ 40%）- 物料重量
+            const pureWaterAddition = (materialWeight / (solidContentRatio / 100)) - materialWeight;
+            
+            // Display result with 4 decimal places precision / 显示结果，精确到4位小数
+            document.getElementById("result").textContent = pureWaterAddition.toFixed(4);
+        }
+    </script>
+</body>
+</html> 
